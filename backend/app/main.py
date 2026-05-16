@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.config import get_settings
@@ -19,6 +20,13 @@ settings = get_settings()
 
 app = FastAPI(title=settings.app_name)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(
     RateLimitMiddleware,
     requests_per_window=settings.rate_limit_requests,
@@ -39,19 +47,13 @@ async def request_context_middleware(request: Request, call_next):
     started = time.perf_counter()
 
     try:
-        # Respone from llm/ heuristic
         response = await call_next(request)
-        
     except SQLAlchemyError:
         logger.exception("database_failure request_id=%s", request_id)
-        return JSONResponse(status_code=503, content={
-            "detail": "Database unavailable"
-        })
+        return JSONResponse(status_code=503, content={"detail": "Database unavailable"})
     except Exception:
         logger.exception("unhandled_request_failure request_id=%s", request_id)
-        return JSONResponse(status_code=500, content={
-            "detail": "Internal server error"
-        })
+        return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
     latency_ms = int((time.perf_counter() - started) * 1000)
     response.headers["X-Request-ID"] = request_id

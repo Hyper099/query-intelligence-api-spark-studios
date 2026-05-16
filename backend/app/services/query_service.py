@@ -78,6 +78,7 @@ class QueryService:
         schema_valid = record.extraction_source != "heuristic"
         return QueryResponse(
             id=record.id,
+            query=record.raw_query,
             normalized_query=record.normalized_query,
             structured_data=structured_data,
             metadata=QueryMetadata(

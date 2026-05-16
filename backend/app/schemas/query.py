@@ -62,6 +62,7 @@ class QueryResponse(BaseModel):
 
     status: str = "success"
     id: int
+    query: str
     normalized_query: str
     structured_data: StructuredData
     metadata: QueryMetadata

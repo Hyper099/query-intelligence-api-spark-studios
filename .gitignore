@@ -1,9 +1,12 @@
 .env
 /venv
+backend/venv
+frontend/node_modules
+frontend/dist
 __pycache__/
 *.pyc
 *.db
-app.log
+*.log
 .pytest_cache/
-app/test/output/*
-!app/test/output/.gitkeep
+backend/app/test/output/*
+!backend/app/test/output/.gitkeep

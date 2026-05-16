@@ -1,107 +1,141 @@
-# Query Intelligence API
+# Query Intelligence Platform
 
-FastAPI backend service that accepts natural language research queries, extracts structured intelligence with Anthropic Claude, stores the processed result in SQLite, and supports later retrieval by ID.
+Modern full-stack platform for extracting structured intelligence from natural language research queries using FastAPI, Claude, SQLite, and a minimal React frontend.
 
-Example query:
+```text
+project/
+├── frontend/   React + Vite + Tailwind + Axios
+├── backend/    FastAPI + SQLAlchemy + Anthropic SDK
+└── README.md
+```
+
+---
+
+## Overview
+
+The platform accepts natural language research queries such as:
 
 ```text
 Find battery technology startups in Southeast Asia
 ```
 
-Example extracted data:
+It then:
 
-```json
-{
-  "industry": "battery technology",
-  "region": "Southeast Asia",
-  "company_type": "startup",
-  "keywords": [
-      "battery technology",
-      "startups",
-      "southeast asia",
-      "energy storage"
-    ],
-   "confidence_score": 0.95
-}
+- normalizes the query,
+- extracts structured intelligence using Claude,
+- validates and stores the response in SQLite,
+- and displays the processed results through a modern enterprise-style frontend.
 
-```
+---
 
-## Tech Stack
+## Features
 
-- Python 3.11+
-- FastAPI
-- Pydantic v2
-- Anthropic Python SDK
-- SQLite with SQLAlchemy ORM
-- Jinja2 prompt templates
-- python-dotenv
+### Backend
 
-## Setup
+- FastAPI REST API with modular service/repository architecture.
+- Structured extraction using Anthropic Claude.
+- SQLite persistence using SQLAlchemy ORM.
+- Pydantic schema validation and response shaping.
+- Query normalization and fallback parsing support.
+- Metadata tracking including latency, extraction source, and prompt version.
+- Configurable retries, timeout, and model selection.
+
+### Frontend
+
+- Minimal black-and-white enterprise-style React UI.
+- Real-time query analysis and result rendering.
+- Structured intelligence cards for extracted fields.
+- Raw JSON response viewer with copy support.
+- Lightweight in-session query history sidebar.
+- Responsive layout with restrained professional styling.
+
+---
+
+## Backend Setup
 
 ```bash
+cd backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Set your Anthropic API key in `.env`:
+Set your Anthropic key in `backend/.env`:
 
 ```env
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
-## Run
+Run the backend:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The API will be available at:
+Backend runs at:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Interactive docs:
+Swagger documentation:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-## Environment Variables
+---
 
-| Variable                      | Default                               | Description                                |
-| ----------------------------- | ------------------------------------- | ------------------------------------------ |
-| `ANTHROPIC_API_KEY`         | empty                                 | Anthropic API key used by the official SDK |
-| `ANTHROPIC_MODEL`           | `claude-haiku-4-5-20251001`         | Claude model used for extraction           |
-| `ANTHROPIC_TIMEOUT_SECONDS` | `10`                                | Per-request timeout for Claude calls       |
-| `ANTHROPIC_MAX_RETRIES`     | `2`                                 | SDK retry count                            |
-| `DATABASE_URL`              | `sqlite:///./query_intelligence.db` | SQLAlchemy database URL                    |
+## Frontend Setup
 
-## API Examples
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### Create Query
+Frontend runs at:
+
+```text
+http://127.0.0.1:5173
+```
+
+---
+
+## API Endpoints
+
+### `POST /queries`
+
+Accepts a natural language query, extracts structured intelligence using Claude, stores the processed result, and returns the structured response.
+
+### `GET /queries/{id}`
+
+Returns a previously stored query along with its extracted structured intelligence.
+
+---
+
+## API Example
 
 ```bash
 curl -X POST http://127.0.0.1:8000/queries ^
   -H "Content-Type: application/json" ^
-  -d "{\"query\":\"Find battery startups in Southeast Asia\"}"
+  -d "{\"query\":\"Find battery technology startups in Southeast Asia\"}"
 ```
 
-Response:
+Example response:
 
 ```json
 {
   "status": "success",
   "id": 1,
-  "query": "Find battery startups in Southeast Asia",
-  "normalized_query": "find battery startups in southeast asia",
+  "query": "Find battery technology startups in Southeast Asia",
+  "normalized_query": "find battery technology startups in southeast asia",
   "structured_data": {
-    "industry": "battery",
+    "industry": "battery technology",
     "region": "Southeast Asia",
     "company_type": "startup",
-    "keywords": ["battery", "startup", "southeast", "asia"],
+    "keywords": ["battery", "technology", "startup"],
     "confidence_score": 0.91
   },
   "metadata": {
@@ -117,66 +151,71 @@ Response:
 }
 ```
 
-### Get Query
+---
+
+## Running Sample Query Batches
+
+The backend includes sample research queries and a lightweight runner script.
 
 ```bash
-curl http://127.0.0.1:8000/queries/1
-```
-
-Missing IDs return:
-
-```json
-{
-  "detail": "Query not found"
-}
-```
-
-## Running Sample Queries
-
-The `app/test` folder includes complex sample queries and a small runner script:
-
-```bash
+cd backend
 python app/test/run_queries.py
 ```
 
-By default it sends requests to `http://127.0.0.1:8000` and writes responses to:
+Outputs are written to:
 
 ```text
-app/test/output/<run_id>/
+backend/app/test/output/<run_id>/
 ```
 
-The runner sends each query once using `POST /queries` and writes the API response body directly to one output file per query. To use another API URL:
+---
 
-```bash
-python app/test/run_queries.py --base-url http://127.0.0.1:8000
-```
+## Frontend Preview
 
-## Architecture
+![1778953413629](image/README/1778953413629.png)
 
-```text
-app/
-  main.py                 FastAPI app, startup, middleware
-  config.py               Environment-based settings
-  database.py             SQLAlchemy engine/session setup
-  models/                 ORM models
-  schemas/                Pydantic request/response contracts
-  routes/                 Thin HTTP route handlers
-  services/               Business logic and Claude integration
-  repositories/           Persistence layer
-  prompts/                Jinja2 prompt templates
-  utils/                  Parsing, heuristics, logging, rate limiting
-```
+![1778953434278](image/README/1778953434278.png)
 
-Route handlers validate HTTP input and delegate to services. The query service normalizes text by trimming whitespace, collapsing repeated spaces, and lowercasing before calling Claude. It validates the structured response with Pydantic, falls back to safe parsing and heuristics when necessary, then persists through the repository.
+
+
+---
 
 ## What I Would Improve With More Time
 
-- Add a frontend dashboard to submit queries and view extracted intelligence in a cleaner UI.
-- Add authentication and user-specific query history.
-- Add proper integration tests with a mocked Anthropic client.
-- Add Alembic migrations for better database version management.
-- Improve extraction accuracy with better prompts and additional validation rules.
-- Add retry handling and better error messages for failed LLM responses.
-- Add caching for repeated queries to reduce API costs and improve response time.
-- Add stricter and configurable rate limiting for production-grade API protection.
-- Add analytics such as query counts, extraction success rate, and average processing latency.
+### 1. Automated Integration Testing
+
+I would add integration tests with a mocked Anthropic client to validate:
+
+- structured extraction behavior,
+- fallback parsing,
+- error handling,
+- and database persistence.
+
+This would make the service more reliable and ensure extraction logic remains stable as prompts and schemas evolve.
+
+### 2. Production-Grade Rate Limiting & Monitoring
+
+I would add configurable rate limiting and request monitoring to better simulate a production environment. This would help:
+
+- prevent API abuse,
+- control LLM usage costs,
+- monitor latency and extraction failures,
+- and improve operational visibility for real-world deployment scenarios.
+
+### 3. Query Caching & Response Optimization
+
+I would add caching for repeated or semantically similar queries to reduce unnecessary LLM calls and improve response times. This would:
+
+- lower API costs,
+- reduce latency for frequently repeated research queries,
+- and improve scalability under higher request volumes.
+
+A lightweight Redis-based caching layer would be a good next step for production readiness.
+
+---
+
+# Author
+
+**Jayneel Mukeshkumar Mahival**
+
+Created as part of the **Spark Studios Internship Assignment**.
