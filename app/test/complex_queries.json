@@ -1,0 +1,62 @@
+[
+  {
+    "name": "battery_startups_southeast_asia",
+    "query": "Find early-stage battery recycling and second-life storage startups in Southeast Asia serving electric two-wheeler fleets"
+  },
+  {
+    "name": "ai_healthcare_europe",
+    "query": "Identify AI healthcare startups in Europe focused on radiology workflow automation for mid-sized hospitals"
+  },
+  {
+    "name": "fintech_inclusion_latin_america",
+    "query": "List fintech companies in Latin America building credit scoring infrastructure for underbanked small merchants"
+  },
+  {
+    "name": "climate_saas_india",
+    "query": "Research climate SaaS startups in India that help manufacturing companies measure Scope 3 supply chain emissions"
+  },
+  {
+    "name": "cybersecurity_enterprises_middle_east",
+    "query": "Find enterprise cybersecurity vendors in the Middle East specializing in cloud identity threat detection"
+  },
+  {
+    "name": "agritech_africa",
+    "query": "Show agritech startups in Africa using satellite imagery and mobile payments to support smallholder farmers"
+  },
+  {
+    "name": "robotics_warehouse_north_america",
+    "query": "Identify warehouse robotics companies in North America focused on autonomous picking systems for e-commerce fulfillment"
+  },
+  {
+    "name": "edtech_language_asia",
+    "query": "Find consumer edtech startups in Asia building AI-powered English language tutoring products for working adults"
+  },
+  {
+    "name": "biotech_tools_united_states",
+    "query": "Research biotechnology tooling companies in the United States developing lab automation software for synthetic biology teams"
+  },
+  {
+    "name": "clean_hydrogen_europe",
+    "query": "List clean hydrogen infrastructure startups in Europe working on electrolyzer monitoring, maintenance, and project analytics"
+  },
+  {
+    "name": "insurance_api_platforms",
+    "query": "Find B2B insurance API platforms in Southeast Asia helping banks embed travel and device protection products"
+  },
+  {
+    "name": "construction_tech_india",
+    "query": "Identify construction technology startups in India providing procurement intelligence and cost estimation tools for contractors"
+  },
+  {
+    "name": "defense_dual_use_us",
+    "query": "Research dual-use defense technology startups in the United States focused on autonomous maritime surveillance"
+  },
+  {
+    "name": "food_supply_chain_africa",
+    "query": "Find food supply chain companies in Africa building cold-chain logistics software for perishable produce exporters"
+  },
+  {
+    "name": "wealthtech_middle_east",
+    "query": "List wealthtech startups in the Middle East offering Sharia-compliant robo-advisory platforms for retail investors"
+  }
+]

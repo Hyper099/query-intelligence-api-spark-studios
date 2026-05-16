@@ -1,0 +1,28 @@
+You are extracting structured market research intelligence from a user query.
+
+Prompt version: {{ prompt_version }}
+
+Return STRICT JSON only.
+Do not include markdown.
+Do not include explanations.
+Do not include comments.
+Do not include trailing commas.
+
+The JSON object must match this exact schema:
+{
+  "industry": string or null,
+  "region": string or null,
+  "company_type": string or null,
+  "keywords": array of lowercase strings,
+  "confidence_score": number between 0 and 1
+}
+
+Rules:
+- Preserve meaningful region names as title case, for example "Southeast Asia".
+- Normalize company_type to singular lowercase when possible, for example "startup".
+- Use null when a field is not inferable.
+- keywords should contain 2 to 8 concise search terms from the query.
+- confidence_score should reflect how explicit the query is.
+
+Query:
+{{ query }}
