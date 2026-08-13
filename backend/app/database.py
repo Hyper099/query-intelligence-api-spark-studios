@@ -16,7 +16,7 @@ class Base(DeclarativeBase):
 
 
 def init_db() -> None:
-    from app.models.query import QueryRecord
+    from app.models.query import QueryRecord  # noqa: F401
 
     Base.metadata.create_all(bind=engine)
 

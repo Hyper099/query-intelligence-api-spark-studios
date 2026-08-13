@@ -12,8 +12,8 @@ router = APIRouter(prefix="/queries", tags=["queries"])
 
 
 def get_query_service(
-    db: Session = Depends(get_db),
-    settings: Settings = Depends(get_settings),
+    db: Session = Depends(get_db),  # noqa: B008
+    settings: Settings = Depends(get_settings),  # noqa: B008
 ) -> QueryService:
     """Build a query service for the current request."""
 
@@ -32,7 +32,7 @@ def get_query_service(
 def create_query(
     payload: QueryCreate,
     request: Request,
-    service: QueryService = Depends(get_query_service),
+    service: QueryService = Depends(get_query_service),  # noqa: B008
 ) -> QueryResponse:
     """Process and store a natural language research query."""
 
@@ -46,7 +46,7 @@ def create_query(
 )
 def get_query(
     query_id: int, 
-    service: QueryService = Depends(get_query_service)
+    service: QueryService = Depends(get_query_service)  # noqa: B008
 ) -> QueryResponse:
     """Return a previously processed query."""
 

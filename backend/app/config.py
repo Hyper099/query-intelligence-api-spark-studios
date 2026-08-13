@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    #! Default Values
+    # Default Values
     app_name: str                       = "Query Intelligence API"
     database_url: str                   = "sqlite:///./query_intelligence.db"
     
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     rate_limit_requests: int            = 100
     rate_limit_window_seconds: int      = 60
 
-    #! Override with .env config
+    # Override with .env config
     model_config                        = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 
 

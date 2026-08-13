@@ -59,7 +59,7 @@ def parse_args() -> argparse.Namespace:
 def load_queries(path: Path) -> list[dict[str, str]]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, list):
-        raise ValueError("Query file must contain a JSON list")
+        raise TypeError("Query file must contain a JSON list")
     return data
 
 

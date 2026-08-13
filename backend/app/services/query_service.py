@@ -5,7 +5,12 @@ from pydantic import ValidationError
 
 from app.config import Settings
 from app.repositories.query_repository import QueryRepository
-from app.schemas.query import QueryMetadata, QueryResponse, QueryValidation, StructuredData
+from app.schemas.query import (
+    QueryMetadata,
+    QueryResponse,
+    QueryValidation,
+    StructuredData,
+)
 from app.services.llm_service import LLMService, LLMServiceError
 from app.utils.heuristics import heuristic_extract
 from app.utils.json_parser import JSONParseError, parse_json_object
